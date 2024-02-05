@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { PiEyedropper } from 'react-icons/pi';
-import axios from 'axios';
+import { PiEyedropper, PiImages } from 'react-icons/pi';
+import { FaUndo } from 'react-icons/fa';
 /* 
   Image by Pawel Czerwinski 
   https://unsplash.com/photos/pink-and-blue-abstract-painting-sxaYEsE12RM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
@@ -26,17 +26,12 @@ declare global {
 	}
 }
 
-const ACCEPTED_MIME_TYPES = [
-	'image/jpeg',
-	'image/jpg',
-	'image/png',
-
-]
+const ACCEPTED_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 function App() {
 	const [hex, setHex] = useState('#000000');
 	const [rgb, setRGB] = useState({ r: 0, g: 0, b: 0 });
-	const [image, setImage] = useState({ src: null, alt: '' });
+	const [image, setImage] = useState({ src: '', alt: '' });
 
 	const hexToRGB = (hex: string): { r: number; g: number; b: number } => {
 		return {
@@ -73,11 +68,24 @@ function App() {
 	const handleUploadImage = e => {
 		const file = e.target.files[0];
 
+		if (!file) return;
+
 		if (!ACCEPTED_MIME_TYPES.includes(file.type)) return;
 		setImage({
 			src: URL.createObjectURL(file),
 			alt: file.name
 		});
+	};
+
+	const handleUseExampleImage = () => {
+		setImage({
+			src: exampleImage,
+			alt: 'Example Image'
+		});
+	};
+
+	const handleClickUndo = () => {
+		setImage({ src: '', alt: '' });
 	};
 
 	return (
@@ -96,7 +104,9 @@ function App() {
 							/>
 							<div className='text-center text-md p-10 absolute top-10 right-0 left-0 m-auto'>
 								<p>Drag &amp; Drop image or click to upload</p>
-								<p className='text-sm'>Only .jpeg, .jpg &amp; .png are accepted</p>
+								<p className='text-sm'>
+									Only .jpeg, .jpg &amp; .png are accepted
+								</p>
 							</div>
 						</div>
 					)}
@@ -113,13 +123,30 @@ function App() {
 								</p>
 							</div>
 						</div>
-						<div className='flex flex-col '>
+						<div className='flex flex-row gap-1'>
 							<button
-								className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center'
+								className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 rounded inline-flex items-center'
+								title='Eye Dropper'
 								onClick={handleClickEyeDropper}
 							>
 								<PiEyedropper />
 							</button>
+							<button
+								className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 rounded inline-flex items-center'
+								title='Example Image'
+								onClick={handleUseExampleImage}
+							>
+								<PiImages />
+							</button>
+							{image.src && (
+								<button
+									className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 rounded inline-flex items-center'
+									title='Example Image'
+									onClick={handleClickUndo}
+								>
+									<FaUndo />
+								</button>
+							)}
 						</div>
 					</div>
 				</div>
