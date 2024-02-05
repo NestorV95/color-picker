@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PiEyedropper } from 'react-icons/pi';
+import axios from 'axios';
 /* 
   Image by Pawel Czerwinski 
   https://unsplash.com/photos/pink-and-blue-abstract-painting-sxaYEsE12RM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
@@ -25,9 +26,17 @@ declare global {
 	}
 }
 
+const ACCEPTED_MIME_TYPES = [
+	'image/jpeg',
+	'image/jpg',
+	'image/png',
+
+]
+
 function App() {
 	const [hex, setHex] = useState('#000000');
 	const [rgb, setRGB] = useState({ r: 0, g: 0, b: 0 });
+	const [image, setImage] = useState({ src: null, alt: '' });
 
 	const hexToRGB = (hex: string): { r: number; g: number; b: number } => {
 		return {
@@ -61,14 +70,39 @@ function App() {
 		}, 30000);
 	};
 
+	const handleUploadImage = e => {
+		const file = e.target.files[0];
+
+		if (!ACCEPTED_MIME_TYPES.includes(file.type)) return;
+		setImage({
+			src: URL.createObjectURL(file),
+			alt: file.name
+		});
+	};
+
 	return (
 		<>
 			<h1 className='text-3xl text-center font-bold m-8'>Color Picker</h1>
 			<div className='m-8 flex justify-center align-center'>
 				<div className='max-w-3xl rounded overflow-hidden shadow-lg'>
-					<img className='w-full' src={exampleImage} alt='sample this' />
+					{image.src ? (
+						<img className='w-full' src={image.src} alt={image.alt} />
+					) : (
+						<div className='border border-dashed border-gray-500 relative'>
+							<input
+								type='file'
+								className='cursor-pointer relative block opacity-0 w-full h-full p-20 z-50'
+								onChange={handleUploadImage}
+							/>
+							<div className='text-center text-md p-10 absolute top-10 right-0 left-0 m-auto'>
+								<p>Drag &amp; Drop image or click to upload</p>
+								<p className='text-sm'>Only .jpeg, .jpg &amp; .png are accepted</p>
+							</div>
+						</div>
+					)}
+
 					<div className='px-6 py-4 flex justify-around items-center'>
-						<div className='flex gap-5 w-60'>
+						<div className='flex gap-2 w-60'>
 							<div
 								style={{ height: '5rem', width: '5rem', backgroundColor: hex }}
 							/>
@@ -79,14 +113,14 @@ function App() {
 								</p>
 							</div>
 						</div>
-
-						<button
-							className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center'
-							onClick={handleClickEyeDropper}
-						>
-							<PiEyedropper />
-							<span>Eye Dropper</span>
-						</button>
+						<div className='flex flex-col '>
+							<button
+								className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center'
+								onClick={handleClickEyeDropper}
+							>
+								<PiEyedropper />
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
