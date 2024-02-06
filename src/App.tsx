@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import { PiEyedropper, PiImages } from 'react-icons/pi';
 import { FaUndo } from 'react-icons/fa';
+import Button from './components/Button';
 /* 
   Image by Pawel Czerwinski 
   https://unsplash.com/photos/pink-and-blue-abstract-painting-sxaYEsE12RM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
@@ -125,28 +127,16 @@ function App() {
 							</div>
 						</div>
 						<div className='flex flex-row gap-1'>
-							<button
-								className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 rounded inline-flex items-center'
-								title='Eye Dropper'
-								onClick={handleClickEyeDropper}
-							>
+							<Button title='Eye Dropper' onClick={handleClickEyeDropper}>
 								<PiEyedropper />
-							</button>
-							<button
-								className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 rounded inline-flex items-center'
-								title='Example Image'
-								onClick={handleUseExampleImage}
-							>
+							</Button>
+							<Button title='Example Image' onClick={handleUseExampleImage}>
 								<PiImages />
-							</button>
+							</Button>
 							{image.src && (
-								<button
-									className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-2 rounded inline-flex items-center'
-									title='Example Image'
-									onClick={handleClickUndo}
-								>
+								<Button title='Restart' onClick={handleClickUndo}>
 									<FaUndo />
-								</button>
+								</Button>
 							)}
 						</div>
 					</div>
