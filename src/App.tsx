@@ -65,8 +65,9 @@ function App() {
 		}, 30000);
 	};
 
-	const handleUploadImage = e => {
-		const file = e.target.files[0];
+	const handleUploadImage = (e: React.SyntheticEvent) => {
+		const fileInput = e.target as HTMLInputElement;
+		const file: File | null = fileInput.files ? fileInput.files[0] : null;
 
 		if (!file) return;
 
