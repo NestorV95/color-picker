@@ -1,11 +1,9 @@
-import { useState } from 'react';
-
 import { PiEyedropper, PiImages } from 'react-icons/pi';
 import { FaUndo } from 'react-icons/fa';
 import Button from './components/Button';
-
 import DragNDrop from './components/DragNDrop';
 import useImage from './hooks/useImage';
+import useColors from './hooks/useColors';
 
 interface EyeDropperOpen {
 	signal?: AbortSignal;
@@ -26,17 +24,8 @@ declare global {
 }
 
 function App() {
-	const [hex, setHex] = useState('#000000');
-	const [rgb, setRGB] = useState({ r: 0, g: 0, b: 0 });
+	const {hex, rgb, setColors} = useColors();
 	const {image, setUploadedImage, setExampleImage, resetImage} = useImage();
-
-	const hexToRGB = (hex: string): { r: number; g: number; b: number } => {
-		return {
-			r: parseInt(hex.substring(1, 3), 16),
-			g: parseInt(hex.substring(3, 5), 16),
-			b: parseInt(hex.substring(5, 7), 16)
-		};
-	};
 
 	const handleClickEyeDropper = async () => {
 		if (!window.EyeDropper) {
@@ -50,9 +39,7 @@ function App() {
 			const { sRGBHex } = await eyeDropper.open({
 				signal: abortController.signal
 			});
-			const rgb = hexToRGB(sRGBHex);
-			setHex(sRGBHex);
-			setRGB(rgb);
+			setColors(sRGBHex)
 		} catch (err) {
 			console.error(err);
 		}
@@ -78,9 +65,9 @@ function App() {
 							<div
 								style={{ height: '5rem', width: '5rem', backgroundColor: hex }}
 							/>
-							<div>
-								<p className='text-md font-bold'>Hex: {hex}</p>
-								<p className='text-md font-bold'>
+							<div className='text-md font-bold'>
+								<p>Hex: {hex}</p>
+								<p>
 									RGB: ({rgb.r}, {rgb.g}, {rgb.b})
 								</p>
 							</div>
