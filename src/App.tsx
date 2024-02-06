@@ -9,6 +9,7 @@ import Button from './components/Button';
 */
 
 import exampleImage from '@/assets/pawel-czerwinski-sxaYEsE12RM-unsplash.jpg';
+import { ACCEPTED_MIME_TYPES } from '@/config/constants';
 
 interface EyeDropperOpen {
 	signal?: AbortSignal;
@@ -27,8 +28,6 @@ declare global {
 		EyeDropper: EyeDropper;
 	}
 }
-
-const ACCEPTED_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 function App() {
 	const [hex, setHex] = useState('#000000');
