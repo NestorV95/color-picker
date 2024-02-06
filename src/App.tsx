@@ -8,9 +8,8 @@ import Button from './components/Button';
   https://unsplash.com/photos/pink-and-blue-abstract-painting-sxaYEsE12RM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
 */
 
-import exampleImage from '@/assets/pawel-czerwinski-sxaYEsE12RM-unsplash.jpg';
-import { ACCEPTED_MIME_TYPES } from '@/config/constants';
 import DragNDrop from './components/DragNDrop';
+import useImage from './hooks/useImage';
 
 interface EyeDropperOpen {
 	signal?: AbortSignal;
@@ -33,7 +32,7 @@ declare global {
 function App() {
 	const [hex, setHex] = useState('#000000');
 	const [rgb, setRGB] = useState({ r: 0, g: 0, b: 0 });
-	const [image, setImage] = useState({ src: '', alt: '' });
+	const {image, setUploadedImage, setExampleImage, resetImage} = useImage();
 
 	const hexToRGB = (hex: string): { r: number; g: number; b: number } => {
 		return {
@@ -67,30 +66,6 @@ function App() {
 		}, 30000);
 	};
 
-	const handleUploadImage = (e: React.SyntheticEvent) => {
-		const fileInput = e.target as HTMLInputElement;
-		const file: File | null = fileInput.files ? fileInput.files[0] : null;
-
-		if (!file) return;
-
-		if (!ACCEPTED_MIME_TYPES.includes(file.type)) return;
-		setImage({
-			src: URL.createObjectURL(file),
-			alt: file.name
-		});
-	};
-
-	const handleUseExampleImage = () => {
-		setImage({
-			src: exampleImage,
-			alt: 'Example Image'
-		});
-	};
-
-	const handleClickUndo = () => {
-		setImage({ src: '', alt: '' });
-	};
-
 	return (
 		<>
 			<h1 className='text-3xl text-center font-bold m-8'>Color Picker</h1>
@@ -99,7 +74,7 @@ function App() {
 					{image.src ? (
 						<img className='w-full' src={image.src} alt={image.alt} />
 					) : (
-						<DragNDrop onChange={handleUploadImage} />
+						<DragNDrop onChange={setUploadedImage} />
 					)}
 
 					<div className='px-6 py-4 flex justify-around items-center'>
@@ -118,11 +93,11 @@ function App() {
 							<Button title='Eye Dropper' onClick={handleClickEyeDropper}>
 								<PiEyedropper />
 							</Button>
-							<Button title='Example Image' onClick={handleUseExampleImage}>
+							<Button title='Example Image' onClick={setExampleImage}>
 								<PiImages />
 							</Button>
 							{image.src && (
-								<Button title='Restart' onClick={handleClickUndo}>
+								<Button title='Restart' onClick={resetImage}>
 									<FaUndo />
 								</Button>
 							)}
