@@ -1,4 +1,8 @@
 import { useState } from 'react';
+/* 
+  Image by Pawel Czerwinski 
+  https://unsplash.com/photos/pink-and-blue-abstract-painting-sxaYEsE12RM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
+*/
 import exampleImage from '@/assets/pawel-czerwinski-sxaYEsE12RM-unsplash.jpg';
 import { ACCEPTED_MIME_TYPES, DEFAULT_IMAGE_STATE } from '@/config/constants';
 

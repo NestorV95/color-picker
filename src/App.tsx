@@ -3,10 +3,6 @@ import { useState } from 'react';
 import { PiEyedropper, PiImages } from 'react-icons/pi';
 import { FaUndo } from 'react-icons/fa';
 import Button from './components/Button';
-/* 
-  Image by Pawel Czerwinski 
-  https://unsplash.com/photos/pink-and-blue-abstract-painting-sxaYEsE12RM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
-*/
 
 import DragNDrop from './components/DragNDrop';
 import useImage from './hooks/useImage';
