@@ -10,6 +10,7 @@ import Button from './components/Button';
 
 import exampleImage from '@/assets/pawel-czerwinski-sxaYEsE12RM-unsplash.jpg';
 import { ACCEPTED_MIME_TYPES } from '@/config/constants';
+import DragNDrop from './components/DragNDrop';
 
 interface EyeDropperOpen {
 	signal?: AbortSignal;
@@ -98,19 +99,7 @@ function App() {
 					{image.src ? (
 						<img className='w-full' src={image.src} alt={image.alt} />
 					) : (
-						<div className='border border-dashed border-gray-500 relative'>
-							<input
-								type='file'
-								className='cursor-pointer relative block opacity-0 w-full h-full p-20 z-50'
-								onChange={handleUploadImage}
-							/>
-							<div className='text-center text-md p-10 absolute top-10 right-0 left-0 m-auto'>
-								<p>Drag &amp; Drop image or click to upload</p>
-								<p className='text-sm'>
-									Only .jpeg, .jpg &amp; .png are accepted
-								</p>
-							</div>
-						</div>
+						<DragNDrop onChange={handleUploadImage} />
 					)}
 
 					<div className='px-6 py-4 flex justify-around items-center'>
