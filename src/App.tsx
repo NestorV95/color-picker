@@ -7,16 +7,16 @@ import useColors from './hooks/useColors';
 import useEyeDropper from './hooks/useEyeDropper';
 
 function App() {
-	const {hex, rgb, setColors} = useColors();
-	const {image, setUploadedImage, setExampleImage, resetImage} = useImage();
-	const {isSupported, open, close} = useEyeDropper();
+	const { hex, rgb, setColors } = useColors();
+	const { image, setUploadedImage, setExampleImage, resetImage } = useImage();
+	const { isSupported, open, close } = useEyeDropper();
 
 	const handleClickEyeDropper = async () => {
 		if (!isSupported) {
 			alert('Your browser does not support the EyeDropper API');
 			return;
 		}
-		const {sRGBHex, error} = await open();
+		const { sRGBHex, error } = await open();
 
 		if (error) {
 			alert('Something went wrong.');
