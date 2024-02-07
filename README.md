@@ -1,4 +1,4 @@
-# Color Picker
+# Color Picker [![Netlify Status](https://api.netlify.com/api/v1/badges/ada73397-ec09-42a8-a881-71278aacecd4/deploy-status)](https://app.netlify.com/sites/nv-color-picker/deploys)
 
 ### Description
 
