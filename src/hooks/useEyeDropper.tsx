@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { EyeDropper as EyeDropperType } from '@/types/EyeDropper';
 
+// eslint-disable-next-line react-refresh/only-export-components
+declare const EyeDropper: {
+	prototype: EyeDropperType;
+	new (): EyeDropperType;
+};
 interface OpenOutput {
 	sRGBHex?: string| null;
 	error?: Error | null;
@@ -10,8 +15,9 @@ export default function useEyeDropper() {
 	const [abortController, setAbortController] = useState({ abort: () => {} });
 	const isSupported = window.EyeDropper ? true : false;
 
+
 	const open = async (): Promise<OpenOutput> => {
-		const eyeDropper = new EyeDropper<EyeDropperType>();
+		const eyeDropper = new EyeDropper();
 		const abortController = new AbortController();
 		setAbortController(abortController);
 		try {
