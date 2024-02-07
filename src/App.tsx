@@ -4,48 +4,29 @@ import Button from './components/Button';
 import DragNDrop from './components/DragNDrop';
 import useImage from './hooks/useImage';
 import useColors from './hooks/useColors';
-
-interface EyeDropperOpen {
-	signal?: AbortSignal;
-}
-
-interface EyeDropper {
-	open(arg: EyeDropperOpen): Promise<{ sRGBHex: string }>;
-}
-
-declare const EyeDropper: {
-	prototype: EyeDropper;
-	new (): EyeDropper;
-};
-declare global {
-	interface Window {
-		EyeDropper: EyeDropper;
-	}
-}
+import useEyeDropper from './hooks/useEyeDropper';
 
 function App() {
 	const {hex, rgb, setColors} = useColors();
 	const {image, setUploadedImage, setExampleImage, resetImage} = useImage();
+	const {isSupported, open, close} = useEyeDropper();
 
 	const handleClickEyeDropper = async () => {
-		if (!window.EyeDropper) {
+		if (!isSupported) {
 			alert('Your browser does not support the EyeDropper API');
 			return;
 		}
-		const eyeDropper = new EyeDropper();
-		const abortController = new AbortController();
+		const {sRGBHex, error} = await open();
 
-		try {
-			const { sRGBHex } = await eyeDropper.open({
-				signal: abortController.signal
-			});
-			setColors(sRGBHex)
-		} catch (err) {
-			console.error(err);
+		if (error) {
+			alert('Something went wrong.');
+			return;
 		}
 
+		if (sRGBHex) setColors(sRGBHex);
+
 		setTimeout(() => {
-			abortController.abort();
+			close();
 		}, 30000);
 	};
 
