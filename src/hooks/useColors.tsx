@@ -3,9 +3,6 @@ import { useState } from 'react';
 const DEFAULT_COLORS_STATE = { hex: '#000000', rgb: { r: 0, g: 0, b: 0 } };
 
 export default function useColors() {
-	// const [hex, setHex] = useState('#000000');
-	// const [rgb, setRGB] = useState({ r: 0, g: 0, b: 0 });
-
 	const [state, setState] = useState(DEFAULT_COLORS_STATE);
 
 	const parseHex = (hex: string, start: number, finish: number): number => {
