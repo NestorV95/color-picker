@@ -6,15 +6,20 @@ declare const EyeDropper: {
 	prototype: EyeDropperType;
 	new (): EyeDropperType;
 };
+
+declare global {
+	interface Window {
+		EyeDropper: EyeDropperType;
+	}
+}
 interface OpenOutput {
-	sRGBHex?: string| null;
+	sRGBHex?: string | null;
 	error?: Error | null;
 }
 
 export default function useEyeDropper() {
 	const [abortController, setAbortController] = useState({ abort: () => {} });
 	const isSupported = window.EyeDropper ? true : false;
-
 
 	const open = async (): Promise<OpenOutput> => {
 		const eyeDropper = new EyeDropper();
